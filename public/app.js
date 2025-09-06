@@ -5,13 +5,95 @@ import { init, reset, numQubits, dim, applyGate, getProbsRange, sample } from '.
 
 console.log('[app.js] script loaded');
 
+const translations = {
+  ja: {
+    title: 'JavaScript 量子状態ベクトルシミュレータ',
+    headerTitle: 'JavaScript 量子状態ベクトルシミュレータ',
+    pillText: '純粋な JavaScript 実装',
+    initHeading: '初期化',
+    numQubits: '量子ビット数:',
+    nThreads: 'スレッド数:',
+    btnInit: '初期化',
+    btnReset: '|0…0⟩ にリセット',
+    gateHeading: 'ゲート適用',
+    lblGate: 'ゲート:',
+    lblTarget: 'ターゲット q:',
+    lblControl: '制御 q:',
+    lblTheta: 'θ:',
+    btnApplyGate: '適用',
+    probHeading: '確率のプレビュー',
+    lblViewCount: '表示件数（先頭から）',
+    btnRefresh: '更新',
+    btnOneShot: '1ショット測定',
+    shotPrefix: '→ 測定結果:',
+    indexWord: 'インデックス',
+    footerText: '© MIT License / デモ',
+    btnLang: 'English',
+    tableHead: '<table><thead><tr><th>#</th><th>ビット列</th><th>P</th></tr></thead><tbody>',
+  },
+  en: {
+    title: 'JavaScript Quantum State Vector Simulator',
+    headerTitle: 'JavaScript Quantum State Vector Simulator',
+    pillText: 'Pure JavaScript implementation',
+    initHeading: 'Initialization',
+    numQubits: 'Qubits:',
+    nThreads: 'Threads:',
+    btnInit: 'Initialize',
+    btnReset: 'Reset to |0…0⟩',
+    gateHeading: 'Apply Gate',
+    lblGate: 'Gate:',
+    lblTarget: 'Target q:',
+    lblControl: 'Control q:',
+    lblTheta: 'θ:',
+    btnApplyGate: 'Apply',
+    probHeading: 'Probability Preview',
+    lblViewCount: 'Entries to display (from start)',
+    btnRefresh: 'Refresh',
+    btnOneShot: 'One-shot measure',
+    shotPrefix: '→ Measurement result:',
+    indexWord: 'index',
+    footerText: '© MIT License / Demo',
+    btnLang: '日本語',
+    tableHead: '<table><thead><tr><th>#</th><th>bitstring</th><th>P</th></tr></thead><tbody>',
+  }
+};
+
+let currentLang = navigator.language && navigator.language.startsWith('ja') ? 'ja' : 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  document.documentElement.lang = lang;
+  document.title = t.title;
+  document.getElementById('headerTitle').textContent = t.headerTitle;
+  document.getElementById('pillText').textContent = t.pillText;
+  document.getElementById('initHeading').textContent = t.initHeading;
+  document.getElementById('lblNumQubits').textContent = t.numQubits;
+  document.getElementById('lblThreads').textContent = t.nThreads;
+  document.getElementById('btnInit').textContent = t.btnInit;
+  document.getElementById('btnReset').textContent = t.btnReset;
+  document.getElementById('gateHeading').textContent = t.gateHeading;
+  document.getElementById('lblGate').textContent = t.lblGate;
+  document.getElementById('lblTargetText').textContent = t.lblTarget;
+  document.getElementById('lblControlText').textContent = t.lblControl;
+  document.getElementById('lblThetaText').textContent = t.lblTheta;
+  document.getElementById('btnApplyGate').textContent = t.btnApplyGate;
+  document.getElementById('probHeading').textContent = t.probHeading;
+  document.getElementById('lblViewCount').textContent = t.lblViewCount;
+  document.getElementById('btnRefresh').textContent = t.btnRefresh;
+  document.getElementById('btnOneShot').textContent = t.btnOneShot;
+  document.getElementById('footerText').textContent = t.footerText;
+  document.getElementById('btnLang').textContent = t.btnLang;
+  updateProbTable();
+}
+
 function updateProbTable() {
   const viewCount = Math.min(Number(document.getElementById('viewCount').value || 4096), dim());
   console.log('[updateProbTable] viewCount', viewCount);
   const probs = getProbsRange(0, viewCount);
   const container = document.getElementById('probs');
   const rows = [];
-  rows.push('<table><thead><tr><th>#</th><th>bitstring</th><th>P</th></tr></thead><tbody>');
+  rows.push(translations[currentLang].tableHead);
   const n = numQubits();
   for (let i = 0; i < probs.length; ++i) {
     if (probs[i] === 0) continue;
@@ -27,7 +109,8 @@ function oneShot() {
   const n = numQubits();
   const bits = idx.toString(2).padStart(n, '0');
   console.log('[oneShot] idx', idx);
-  document.getElementById('shotOut').textContent = `→ 測定結果: |${bits}⟩  (index ${idx})`;
+  const t = translations[currentLang];
+  document.getElementById('shotOut').textContent = `${t.shotPrefix} |${bits}⟩  (${t.indexWord} ${idx})`;
 }
 
 function applyGateFromUI(kind) {
@@ -91,12 +174,16 @@ function bindUI() {
     console.log('[btnOneShot.click]');
     oneShot();
   });
+  document.getElementById('btnLang').addEventListener('click', () => {
+    setLang(currentLang === 'ja' ? 'en' : 'ja');
+  });
   updateGateParamsUI();
 }
 
 function setup() {
   console.log('[ready]');
   bindUI();
+  setLang(currentLang);
 }
 
 setup();
