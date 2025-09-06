@@ -146,6 +146,18 @@ export function applyGate(kind, target, control, theta) {
   }
 }
 
+export function getAmpsRange(offset, count) {
+  console.log('[getAmpsRange]', { offset, count });
+  const off = Math.min(offset, dimSize);
+  const cnt = Math.min(count, dimSize - off);
+  const out = new Float64Array(cnt * 2);
+  for (let i = 0; i < cnt; ++i) {
+    out[2 * i] = state[2 * (off + i)];
+    out[2 * i + 1] = state[2 * (off + i) + 1];
+  }
+  return out;
+}
+
 export function getProbsRange(offset, count) {
   console.log('[getProbsRange]', { offset, count });
   const off = Math.min(offset, dimSize);

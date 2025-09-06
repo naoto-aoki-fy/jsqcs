@@ -1,7 +1,7 @@
 // docs/app.js
 // Minimal UI glue that calls into the pure JavaScript simulator.
 
-import { init, reset, numQubits, dim, applyGate, getProbsRange, sample } from './qs.js';
+import { init, reset, numQubits, dim, applyGate, getAmpsRange, sample } from './qs.js';
 
 console.log('[app.js] script loaded');
 
@@ -20,7 +20,7 @@ const translations = {
     lblControl: '制御 q:',
     lblTheta: 'θ:',
     btnApplyGate: '適用',
-    probHeading: '確率のプレビュー',
+    probHeading: '確率振幅のプレビュー',
     lblViewCount: '表示件数（先頭から）',
     btnRefresh: '更新',
     btnOneShot: '1ショット測定',
@@ -28,7 +28,7 @@ const translations = {
     indexWord: 'インデックス',
     footerText: '© MIT License / デモ',
     btnLang: 'English',
-    tableHead: '<table><thead><tr><th>#</th><th>ビット列</th><th>P</th></tr></thead><tbody>',
+    tableHead: '<table><thead><tr><th>#</th><th>ビット列</th><th>振幅</th></tr></thead><tbody>',
   },
   en: {
     title: 'JavaScript Quantum State Vector Simulator',
@@ -44,7 +44,7 @@ const translations = {
     lblControl: 'Control q:',
     lblTheta: 'θ:',
     btnApplyGate: 'Apply',
-    probHeading: 'Probability Preview',
+    probHeading: 'Amplitude Preview',
     lblViewCount: 'Entries to display (from start)',
     btnRefresh: 'Refresh',
     btnOneShot: 'One-shot measure',
@@ -52,7 +52,7 @@ const translations = {
     indexWord: 'index',
     footerText: '© MIT License / Demo',
     btnLang: '日本語',
-    tableHead: '<table><thead><tr><th>#</th><th>bitstring</th><th>P</th></tr></thead><tbody>',
+    tableHead: '<table><thead><tr><th>#</th><th>bitstring</th><th>Amp</th></tr></thead><tbody>',
   }
 };
 
@@ -87,15 +87,19 @@ function setLang(lang) {
 function updateProbTable() {
   const viewCount = Math.min(Number(document.getElementById('viewCount').value || 4096), dim());
   console.log('[updateProbTable] viewCount', viewCount);
-  const probs = getProbsRange(0, viewCount);
+  const amps = getAmpsRange(0, viewCount);
   const container = document.getElementById('probs');
   const rows = [];
   rows.push(translations[currentLang].tableHead);
   const n = numQubits();
-  for (let i = 0; i < probs.length; ++i) {
-    if (probs[i] === 0) continue;
+  const cnt = amps.length >> 1;
+  for (let i = 0; i < cnt; ++i) {
+    const r = amps[2 * i];
+    const im = amps[2 * i + 1];
+    if (r === 0 && im === 0) continue;
     const bits = i.toString(2).padStart(n, '0');
-    rows.push(`<tr><td class="idx">${i}</td><td><code>${bits}</code></td><td>${probs[i].toFixed(6)}</td></tr>`);
+    const ampStr = `${r.toFixed(6)}${im >= 0 ? '+' : ''}${im.toFixed(6)}i`;
+    rows.push(`<tr><td class="idx">${i}</td><td><code>${bits}</code></td><td>${ampStr}</td></tr>`);
   }
   rows.push('</tbody></table>');
   container.innerHTML = rows.join('');
