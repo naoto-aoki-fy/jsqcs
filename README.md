@@ -11,24 +11,12 @@
 
 ## How to Run
 
-### 1) Dependencies
+### 1) Run in the browser
 
-- **Node.js** (v18+ recommended)
+Access in your browser: [naoto-aoki-fy.github.io/qcs-js](https://naoto-aoki-fy.github.io/qcs-js/)
 
-### 2) Run in the browser
 
-```
-npm i express
-node server.mjs
-```
-
-Then access in your browser:
-
-```
-http://localhost:8080
-```
-
-### 3) Run via Node.js command line
+### 2) Run via Node.js command line
 
 ```
 node cli.mjs [number_of_qubits]
