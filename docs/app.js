@@ -26,7 +26,7 @@ const translations = {
     btnOneShot: '1ショット測定',
     shotPrefix: '→ 測定結果:',
     indexWord: 'インデックス',
-    footerText: '© MIT License / デモ',
+    footerText: "", //'© MIT License / デモ',
     btnLang: 'English',
     tableHead: '<table><thead><tr><th>#</th><th>ビット列</th><th>振幅</th></tr></thead><tbody>',
   },
@@ -50,7 +50,7 @@ const translations = {
     btnOneShot: 'One-shot measure',
     shotPrefix: '→ Measurement result:',
     indexWord: 'index',
-    footerText: '© MIT License / Demo',
+    footerText: "", // '© MIT License / Demo',
     btnLang: '日本語',
     tableHead: '<table><thead><tr><th>#</th><th>bitstring</th><th>Amp</th></tr></thead><tbody>',
   }
