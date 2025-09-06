@@ -12,7 +12,6 @@ const translations = {
     pillText: '純粋な JavaScript 実装',
     initHeading: '初期化',
     numQubits: '量子ビット数:',
-    nThreads: 'スレッド数:',
     btnInit: '初期化',
     btnReset: '|0…0⟩ にリセット',
     gateHeading: 'ゲート適用',
@@ -37,7 +36,6 @@ const translations = {
     pillText: 'Pure JavaScript implementation',
     initHeading: 'Initialization',
     numQubits: 'Qubits:',
-    nThreads: 'Threads:',
     btnInit: 'Initialize',
     btnReset: 'Reset to |0…0⟩',
     gateHeading: 'Apply Gate',
@@ -69,7 +67,6 @@ function setLang(lang) {
   document.getElementById('pillText').textContent = t.pillText;
   document.getElementById('initHeading').textContent = t.initHeading;
   document.getElementById('lblNumQubits').textContent = t.numQubits;
-  document.getElementById('lblThreads').textContent = t.nThreads;
   document.getElementById('btnInit').textContent = t.btnInit;
   document.getElementById('btnReset').textContent = t.btnReset;
   document.getElementById('gateHeading').textContent = t.gateHeading;
@@ -145,9 +142,8 @@ function bindUI() {
   console.log('[bindUI] attaching event listeners');
   document.getElementById('btnInit').addEventListener('click', () => {
     const n = Number(document.getElementById('nQubits').value || 18);
-    const thr = Number(document.getElementById('nThreads').value || navigator.hardwareConcurrency || 4);
-    console.log('[btnInit.click]', { n, thr });
-    init(n, thr);
+    console.log('[btnInit.click]', { n });
+    init(n);
     document.getElementById('targetQ').max = String(n-1);
     document.getElementById('controlQ').max = String(n-1);
     updateProbTable();

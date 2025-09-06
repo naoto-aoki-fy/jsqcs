@@ -96,8 +96,8 @@ function applyCNOT(control, target) {
   [state, scratch] = [scratch, state];
 }
 
-export function init(n, thr) {
-  console.log('[init]', { n, thr });
+export function init(n) {
+  console.log('[init]', { n });
   nQubits = n > 28 ? 28 : n;
   dimSize = 1 << nQubits;
   state = new Float64Array(dimSize * 2);

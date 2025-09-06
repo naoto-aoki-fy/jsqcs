@@ -31,17 +31,15 @@ http://localhost:8080
 ### 3) Node.js コマンドライン実行
 
 ```
-node cli.mjs [量子ビット数] [スレッド数]
+node cli.mjs [量子ビット数]
 ```
-
-スレッド数引数は JS 実装では無視されます。
 
 ---
 
 ## 公開 API（qs.js）
 
 ```javascript
-init(n, threads);
+init(n);
 free();
 reset();
 numQubits();
