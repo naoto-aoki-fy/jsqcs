@@ -1,4 +1,4 @@
-// public/qs.js
+// docs/qs.js
 // Pure JavaScript state-vector simulator replacing the previous WebAssembly implementation.
 
 // State vector stored as interleaved real/imag pairs in a Float64Array.

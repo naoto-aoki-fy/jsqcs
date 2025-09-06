@@ -7,7 +7,7 @@ import logging
 import mimetypes
 
 ROOT = pathlib.Path(__file__).parent.resolve()
-PUBLIC = ROOT / "public"
+DOCS = ROOT / "docs"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("wasm-qsim-server")
@@ -32,16 +32,16 @@ async def coop_coep_middleware(request, handler):
 
 async def spa_fallback(request):
     # SPA 用に index.html を返す（静的ファイルに存在しないパス）
-    index_file = PUBLIC / "index.html"
+    index_file = DOCS / "index.html"
     if index_file.exists():
         return web.FileResponse(index_file)
     raise web.HTTPNotFound()
 
 def create_app():
     app = web.Application(middlewares=[coop_coep_middleware])
-    # / 直下で public の静的ファイルを配る
+    # / 直下で docs の静的ファイルを配る
     # NOTE: add_static の prefix は '/' でも可。静的に見つかればそれが優先される。
-    app.router.add_static('/', path=str(PUBLIC), show_index=False)
+    app.router.add_static('/', path=str(DOCS), show_index=False)
     # 静的に見つからなかったパスは index.html（SPA）へフォールバック
     app.router.add_get('/{tail:.*}', spa_fallback)
     return app
@@ -49,5 +49,5 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
     port = 8080
-    logger.info("Serving %s on http://localhost:%d", PUBLIC, port)
+    logger.info("Serving %s on http://localhost:%d", DOCS, port)
     web.run_app(app, port=port)

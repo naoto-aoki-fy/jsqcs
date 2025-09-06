@@ -1,4 +1,4 @@
-// public/app.js
+// docs/app.js
 // Minimal UI glue that calls into the pure JavaScript simulator.
 
 import { init, reset, numQubits, dim, applyGate, getProbsRange, sample } from './qs.js';

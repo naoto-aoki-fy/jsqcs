@@ -2,7 +2,7 @@
 // Simple Node.js entry point to run the JavaScript simulator from the command line.
 // Usage: node cli.mjs [n_qubits] [n_threads]
 
-import { init, reset, numQubits, dim, applyGate, getProbsRange, sample, free } from './public/qs.js';
+import { init, reset, numQubits, dim, applyGate, getProbsRange, sample, free } from './docs/qs.js';
 
 console.log('[runtime initialized]');
 run();
