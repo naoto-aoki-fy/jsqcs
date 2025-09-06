@@ -31,17 +31,20 @@
     <section class="card">
       <h2>ゲート適用</h2>
       <div class="row">
-        <label>ターゲット q: <input id="targetQ" type="number" min="0" value="0" /></label>
-        <label>制御 q (CNOT用): <input id="controlQ" type="number" min="0" value="1" /></label>
-      </div>
-      <div class="row gates">
-        <button data-g="H">H</button>
-        <button data-g="X">X</button>
-        <button data-g="RX">RX(θ)</button>
-        <button data-g="RY">RY(θ)</button>
-        <button data-g="RZ">RZ(θ)</button>
-        <input id="theta" type="number" step="0.01" value="1.57079632679" />
-        <button data-g="CNOT">CNOT</button>
+        <label>ゲート:
+          <select id="gateSelect">
+            <option value="H">H</option>
+            <option value="X">X</option>
+            <option value="RX">RX</option>
+            <option value="RY">RY</option>
+            <option value="RZ">RZ</option>
+            <option value="CNOT">CNOT</option>
+          </select>
+        </label>
+        <label id="lblTarget">ターゲット q: <input id="targetQ" type="number" min="0" value="0" /></label>
+        <label id="lblControl" class="hidden">制御 q: <input id="controlQ" type="number" min="0" value="1" /></label>
+        <label id="lblTheta" class="hidden">θ: <input id="theta" type="number" step="0.01" value="1.57079632679" /></label>
+        <button id="btnApplyGate">適用</button>
       </div>
     </section>
 

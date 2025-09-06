@@ -39,6 +39,25 @@ function applyGateFromUI(kind) {
   updateProbTable();
 }
 
+function updateGateParamsUI() {
+  const gate = document.getElementById('gateSelect').value;
+  const target = document.getElementById('lblTarget');
+  const control = document.getElementById('lblControl');
+  const theta = document.getElementById('lblTheta');
+  target.classList.add('hidden');
+  control.classList.add('hidden');
+  theta.classList.add('hidden');
+  if (gate === 'H' || gate === 'X') {
+    target.classList.remove('hidden');
+  } else if (gate === 'RX' || gate === 'RY' || gate === 'RZ') {
+    target.classList.remove('hidden');
+    theta.classList.remove('hidden');
+  } else if (gate === 'CNOT') {
+    target.classList.remove('hidden');
+    control.classList.remove('hidden');
+  }
+}
+
 function bindUI() {
   console.log('[bindUI] attaching event listeners');
   document.getElementById('btnInit').addEventListener('click', () => {
@@ -55,11 +74,14 @@ function bindUI() {
     reset();
     updateProbTable();
   });
-  document.querySelectorAll('.gates button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      console.log('[gate.click]', btn.dataset.g);
-      applyGateFromUI(btn.dataset.g);
-    });
+  const gateSel = document.getElementById('gateSelect');
+  gateSel.addEventListener('change', () => {
+    console.log('[gateSelect.change]', gateSel.value);
+    updateGateParamsUI();
+  });
+  document.getElementById('btnApplyGate').addEventListener('click', () => {
+    console.log('[btnApplyGate.click]', gateSel.value);
+    applyGateFromUI(gateSel.value);
   });
   document.getElementById('btnRefresh').addEventListener('click', () => {
     console.log('[btnRefresh.click]');
@@ -69,6 +91,7 @@ function bindUI() {
     console.log('[btnOneShot.click]');
     oneShot();
   });
+  updateGateParamsUI();
 }
 
 function setup() {
