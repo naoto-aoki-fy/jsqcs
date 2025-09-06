@@ -1,42 +1,42 @@
 # Browser Quantum State-Vector Simulator (JavaScript)
 
-**特徴**
+**Features**
 
-- JavaScript/TypeScript で実装した状態ベクトル法の量子シミュレータ
-- WebAssembly や pthreads を使わないシングルスレッド実装
-- 単一ビットゲート H / X / RX / RY / RZ、2 ビットゲート CNOT を実装
-- 確率プレビューと単発測定（サンプリング）
+- Quantum state-vector simulator implemented in JavaScript/TypeScript
+- Single-threaded implementation without WebAssembly or pthreads
+- Supports single-qubit gates H / X / RX / RY / RZ and two-qubit gate CNOT
+- Probability preview and single-shot measurement (sampling)
 
 ---
 
-## 動かし方
+## How to Run
 
-### 1) 依存関係
+### 1) Dependencies
 
-- **Node.js**（v18+ 推奨）
+- **Node.js** (v18+ recommended)
 
-### 2) ブラウザで実行
+### 2) Run in the browser
 
 ```
 npm i express
 node server.mjs
 ```
 
-ブラウザで以下へアクセス：
+Then access in your browser:
 
 ```
 http://localhost:8080
 ```
 
-### 3) Node.js コマンドライン実行
+### 3) Run via Node.js command line
 
 ```
-node cli.mjs [量子ビット数]
+node cli.mjs [number_of_qubits]
 ```
 
 ---
 
-## 公開 API（qs.js）
+## Public API (qs.js)
 
 ```javascript
 init(n);
@@ -51,6 +51,7 @@ sample();
 
 ---
 
-## ライセンス
+## License
 
 MIT
+

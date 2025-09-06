@@ -26,7 +26,7 @@ const translations = {
     btnOneShot: '1ショット測定',
     shotPrefix: '→ 測定結果:',
     indexWord: 'インデックス',
-    footerText: "", //'© MIT License / デモ',
+    footerText: "", // '© MIT License / Demo',
     btnLang: 'English',
     tableHead: '<table><thead><tr><th>#</th><th>ビット列</th><th>振幅</th></tr></thead><tbody>',
   },

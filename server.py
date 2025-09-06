@@ -1,5 +1,5 @@
 # server.py
-# aiohttp で static 配信 + COOP/COEP ヘッダを付与する最小サーバ
+# Minimal aiohttp server that serves static files and adds COOP/COEP headers
 import asyncio
 from aiohttp import web
 import pathlib
@@ -14,15 +14,15 @@ logger = logging.getLogger("wasm-qsim-server")
 
 @web.middleware
 async def coop_coep_middleware(request, handler):
-    # すべてのレスポンスに COOP/COEP を付与
+    # Attach COOP/COEP headers to every response
     try:
         resp = await handler(request)
     except web.HTTPException as ex:
         resp = ex
-    # ex が web.FileResponse 等でも headers に追加可能
+    # Headers can be added even if ex is web.FileResponse
     resp.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
     resp.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
-    # wasm / js の Content-Type を確実に設定（aiohttp が自動で良ければ不要）
+    # Ensure Content-Type for wasm/js files (skip if aiohttp sets it automatically)
     path = request.path.lower()
     if path.endswith('.wasm'):
         resp.headers['Content-Type'] = 'application/wasm'
@@ -31,7 +31,7 @@ async def coop_coep_middleware(request, handler):
     return resp
 
 async def spa_fallback(request):
-    # SPA 用に index.html を返す（静的ファイルに存在しないパス）
+    # Return index.html for SPA paths not found in static files
     index_file = DOCS / "index.html"
     if index_file.exists():
         return web.FileResponse(index_file)
@@ -39,10 +39,10 @@ async def spa_fallback(request):
 
 def create_app():
     app = web.Application(middlewares=[coop_coep_middleware])
-    # / 直下で docs の静的ファイルを配る
-    # NOTE: add_static の prefix は '/' でも可。静的に見つかればそれが優先される。
+    # Serve docs static files at the root path
+    # NOTE: add_static prefix could also be '/' and static files take precedence if found
     app.router.add_static('/', path=str(DOCS), show_index=False)
-    # 静的に見つからなかったパスは index.html（SPA）へフォールバック
+    # Fallback to index.html (SPA) for paths not found statically
     app.router.add_get('/{tail:.*}', spa_fallback)
     return app
 
