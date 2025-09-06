@@ -1,5 +1,5 @@
 // public/app.js
-// Minimal UI glue that calls into the WASM module via common helpers.
+// Minimal UI glue that calls into the pure JavaScript simulator.
 
 import { init, reset, numQubits, dim, applyGate, getProbsRange, sample } from './qs.js';
 
@@ -41,12 +41,9 @@ function applyGateFromUI(kind) {
 
 function bindUI() {
   console.log('[bindUI] attaching event listeners');
-  if (!crossOriginIsolated) {
-    document.getElementById('xo-warning').hidden = false;
-  }
   document.getElementById('btnInit').addEventListener('click', () => {
     const n = Number(document.getElementById('nQubits').value || 18);
-    const thr = Number(document.getElementById('nThreads').value || Module.pthreadPoolSize || 4);
+    const thr = Number(document.getElementById('nThreads').value || navigator.hardwareConcurrency || 4);
     console.log('[btnInit.click]', { n, thr });
     init(n, thr);
     document.getElementById('targetQ').max = String(n-1);
@@ -75,13 +72,8 @@ function bindUI() {
 }
 
 function setup() {
-  console.log('[wasm-ready]');
-  // prepare cwraps if you prefer direct function pointers (ccall used above for brevity)
+  console.log('[ready]');
   bindUI();
 }
 
-if (Module.runtimeInitialized) {
-  setup();
-} else {
-  document.addEventListener('wasm-ready', setup);
-}
+setup();
