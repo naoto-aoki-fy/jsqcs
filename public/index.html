@@ -22,8 +22,8 @@
     <section class="card">
       <h2 id="initHeading">初期化</h2>
       <div class="row">
-        <label><span id="lblNumQubits">量子ビット数:</span> <input id="nQubits" type="number" min="1" max="28" value="18" /></label>
-        <label><span id="lblThreads">スレッド数:</span> <input id="nThreads" type="number" min="1" max="16" value="4" /></label>
+        <label><span id="lblNumQubits">量子ビット数:</span> <input id="nQubits" type="number" min="1" max="28" value="18" onfocus="this.select();"/></label>
+        <label><span id="lblThreads">スレッド数:</span> <input id="nThreads" type="number" min="1" max="16" value="4" onfocus="this.select();"/></label>
         <button id="btnInit">初期化</button>
         <button id="btnReset">|0…0⟩ にリセット</button>
       </div>
@@ -42,9 +42,9 @@
             <option value="CNOT">CNOT</option>
           </select>
         </label>
-        <label id="lblTarget"><span id="lblTargetText">ターゲット q:</span> <input id="targetQ" type="number" min="0" value="0" /></label>
-        <label id="lblControl" class="hidden"><span id="lblControlText">制御 q:</span> <input id="controlQ" type="number" min="0" value="1" /></label>
-        <label id="lblTheta" class="hidden"><span id="lblThetaText">θ:</span> <input id="theta" type="number" step="0.01" value="1.57079632679" /></label>
+        <label id="lblTarget"><span id="lblTargetText">ターゲット q:</span> <input id="targetQ" type="number" min="0" value="0" onfocus="this.select();"/></label>
+        <label id="lblControl" class="hidden"><span id="lblControlText">制御 q:</span> <input id="controlQ" type="number" min="0" value="1" onfocus="this.select();"/></label>
+        <label id="lblTheta" class="hidden"><span id="lblThetaText">θ:</span> <input id="theta" type="number" step="0.01" value="1.57079632679" onfocus="this.select();"/></label>
         <button id="btnApplyGate">適用</button>
       </div>
     </section>
@@ -52,7 +52,7 @@
     <section class="card">
       <h2 id="probHeading">確率のプレビュー</h2>
       <div class="row">
-        <label><span id="lblViewCount">表示件数（先頭から）</span> <input id="viewCount" type="number" min="2" max="65536" value="4096" /></label>
+        <label><span id="lblViewCount">表示件数（先頭から）</span> <input id="viewCount" type="number" min="2" max="65536" value="4096" onfocus="this.select();"/></label>
         <button id="btnRefresh">更新</button>
         <button id="btnOneShot">1ショット測定</button>
         <span id="shotOut"></span>
